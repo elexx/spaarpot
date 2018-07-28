@@ -9,7 +9,8 @@ import org.dizitart.kno2.nitrite
 import org.dizitart.no2.Nitrite
 import tornadofx.*
 import java.io.File
-import java.time.OffsetDateTime
+import java.math.BigDecimal
+import java.time.LocalDate
 
 class FileController : Controller() {
 
@@ -31,16 +32,16 @@ class FileController : Controller() {
             // TODO: Remove me!!
             val accountId1 = createAccount(Account("Testaccount 1"))
             createAccount(Account("Testaccount 2"))
-            createTransaction(Transaction(OffsetDateTime.now(), 10, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(OffsetDateTime.now(), 10, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(OffsetDateTime.now(), 10, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(OffsetDateTime.now(), 10, "payee1", "note1", "cat1", accountId1))
+            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
         }
     }
 
     fun createTransaction(data: Transaction): String {
         db.getRepository<Transaction> {
-            insert(data)
+            update(data, true)
         }
         return data.id
     }

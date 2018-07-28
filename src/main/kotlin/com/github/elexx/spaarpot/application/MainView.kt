@@ -1,5 +1,7 @@
 package com.github.elexx.spaarpot.application
 
+import com.github.elexx.spaarpot.application.budget.BudgetView
+import com.github.elexx.spaarpot.application.transaction.TransactionView
 import javafx.scene.layout.Priority
 import tornadofx.*
 

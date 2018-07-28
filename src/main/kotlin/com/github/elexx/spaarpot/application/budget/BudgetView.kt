@@ -1,4 +1,4 @@
-package com.github.elexx.spaarpot.application
+package com.github.elexx.spaarpot.application.budget
 
 import tornadofx.*
 

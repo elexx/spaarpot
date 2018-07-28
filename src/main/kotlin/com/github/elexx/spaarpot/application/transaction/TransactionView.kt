@@ -1,7 +1,6 @@
-package com.github.elexx.spaarpot.application
+package com.github.elexx.spaarpot.application.transaction
 
 import com.github.elexx.spaarpot.application.account.AccountList
-import com.github.elexx.spaarpot.controllers.FileController
 import com.github.elexx.spaarpot.domain.entities.Transaction
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
@@ -11,7 +10,7 @@ import tornadofx.*
 
 class TransactionView : View() {
 
-    private val controller: FileController by inject()
+    private val controller: TransactionController by inject()
 
     private val selectedAccount: AccountModel by inject()
     private val selectedTransaction: TransactionModel by inject()
@@ -22,7 +21,7 @@ class TransactionView : View() {
         selectedAccount.itemProperty.onChange {
             it?.apply {
                 runAsync {
-                    controller.listTransactionsByAccount(id)
+                    controller.listByAccountId(id)
                 } ui {
                     transactions.clear()
                     transactions.addAll(it)
@@ -53,6 +52,6 @@ class TransactionView : View() {
             bindSelected(selectedTransaction)
         }
 
-        add(TransactionDetailsView::class)
+        add(TransactionForm::class)
     }
 }
