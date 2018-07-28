@@ -3,6 +3,7 @@ package com.github.elexx.spaarpot.application
 import com.github.elexx.spaarpot.application.account.AccountController
 import com.github.elexx.spaarpot.application.account.AccountForm
 import com.github.elexx.spaarpot.controllers.FileController
+import com.github.elexx.spaarpot.domain.entities.Account
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import javafx.geometry.Insets
 import javafx.scene.input.KeyCode
@@ -33,13 +34,7 @@ class MainWindow : View() {
                 item(messages["menu.file.exit"]).action { primaryStage.close() }
             }
             menu(messages["menu.account"]) {
-                item(messages["menu.account.new"]).action {
-                    val accountModel = AccountModel()
-                    val newScope = Scope(accountModel)
-                    find<AccountForm>(newScope).openModal(block = true)
-                    newScope.deregister()
-                    accountController.create(accountModel.item)
-                }
+                item(messages["menu.account.new"]).action { newAccount() }
             }
         }
 
@@ -64,6 +59,15 @@ class MainWindow : View() {
                 text = messages["statusbar.right.demo"]
             }
         }
+    }
+
+    private fun newAccount() {
+        val accountModel = AccountModel()
+        accountModel.item = Account()
+        val newScope = Scope(accountModel)
+        find<AccountForm>(newScope).openModal(block = true)
+        newScope.deregister()
+        accountController.create(accountModel.item)
     }
 
 

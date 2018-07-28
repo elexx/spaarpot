@@ -3,7 +3,7 @@ package com.github.elexx.spaarpot.domain.viewmodel
 import com.github.elexx.spaarpot.domain.entities.Account
 import tornadofx.*
 
-class AccountModel : ItemViewModel<Account>(Account()) {
+class AccountModel : ItemViewModel<Account>() {
     val name = bind(Account::name)
 
     // keys
