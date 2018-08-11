@@ -27,6 +27,7 @@ class FileController : Controller() {
 
         db = nitrite {
             file = path
+            disableShutdownHook = true
         }
         if (listAccounts().none()) {
             // TODO: Remove me!!

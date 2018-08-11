@@ -1,8 +1,8 @@
 package com.github.elexx.spaarpot.application.transaction
 
-import com.github.elexx.spaarpot.domain.entities.Transaction
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
+import com.github.elexx.spaarpot.domain.viewmodel.TransactionViewObject
 import javafx.util.converter.BigDecimalStringConverter
 import tornadofx.*
 
@@ -39,9 +39,8 @@ class TransactionForm : Fragment() {
 //                }
 //            }
             field(messages["transaction.details.notes"]) {
-                textarea(model.notes) {
+                textfield(model.notes) {
                     useMaxWidth = true
-                    prefHeight = 60.0
                 }
             }
         }
@@ -55,7 +54,7 @@ class TransactionForm : Fragment() {
     }
 
     fun saveTransaction() {
-        if (model.isEmpty) model.item = Transaction()
+        if (model.isEmpty) model.item = TransactionViewObject()
 
         model.commit {
             model.account.value = selectedAccount.id.value

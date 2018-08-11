@@ -1,9 +1,9 @@
 package com.github.elexx.spaarpot.application.transaction
 
 import com.github.elexx.spaarpot.application.account.AccountList
-import com.github.elexx.spaarpot.domain.entities.Transaction
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
+import com.github.elexx.spaarpot.domain.viewmodel.TransactionViewObject
 import javafx.collections.ObservableList
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -15,7 +15,7 @@ class TransactionView : View() {
     private val selectedAccount: AccountModel by inject()
     private val selectedTransaction: TransactionModel by inject()
 
-    private val transactions: ObservableList<Transaction> = mutableListOf<Transaction>().observable()
+    private val transactions: ObservableList<TransactionViewObject> = mutableListOf<TransactionViewObject>().observable()
 
     init {
         selectedAccount.itemProperty.onChange {
@@ -41,11 +41,11 @@ class TransactionView : View() {
             hgrow = Priority.ALWAYS
 //            readonlyColumn(messages["table.col.status"], Transaction::status)
 //            readonlyColumn(messages["table.col.date"], Transaction::dueDate)
-            readonlyColumn(messages["table.col.payee"], Transaction::payee)
-            readonlyColumn(messages["table.col.notes"], Transaction::notes) {
+            column(messages["table.col.payee"], TransactionViewObject::payeeProperty)
+            column(messages["table.col.notes"], TransactionViewObject::notesProperty) {
                 remainingWidth()
             }
-            readonlyColumn(messages["table.col.postingTotal"], Transaction::postingTotal)
+            column(messages["table.col.postingTotal"], TransactionViewObject::postingTotalProperty)
 
             columnResizePolicy = SmartResize.POLICY
 
