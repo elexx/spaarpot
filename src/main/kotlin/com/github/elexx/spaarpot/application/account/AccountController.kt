@@ -1,7 +1,7 @@
 package com.github.elexx.spaarpot.application.account
 
 import com.github.elexx.spaarpot.controllers.FileController
-import com.github.elexx.spaarpot.domain.entities.Account
+import com.github.elexx.spaarpot.domain.viewmodel.Account
 import javafx.collections.ObservableList
 import tornadofx.*
 

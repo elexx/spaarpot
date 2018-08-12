@@ -1,7 +1,7 @@
 package com.github.elexx.spaarpot.controllers
 
-import com.github.elexx.spaarpot.domain.entities.Account
-import com.github.elexx.spaarpot.domain.entities.Transaction
+import com.github.elexx.spaarpot.domain.viewmodel.Account
+import com.github.elexx.spaarpot.domain.viewmodel.Transaction
 import com.github.elexx.spaarpot.events.ShutdownEvent
 import org.dizitart.kno2.filters.eq
 import org.dizitart.kno2.getRepository
@@ -9,8 +9,6 @@ import org.dizitart.kno2.nitrite
 import org.dizitart.no2.Nitrite
 import tornadofx.*
 import java.io.File
-import java.math.BigDecimal
-import java.time.LocalDate
 
 class FileController : Controller() {
 
@@ -31,18 +29,18 @@ class FileController : Controller() {
         }
         if (listAccounts().none()) {
             // TODO: Remove me!!
-            val accountId1 = createAccount(Account("Testaccount 1"))
-            createAccount(Account("Testaccount 2"))
-            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+//            val accountId1 = createAccount(Account("Testaccount 1"))
+//            createAccount(Account("Testaccount 2"))
+//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
+//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
         }
     }
 
     fun createTransaction(data: Transaction): String {
         db.getRepository<Transaction> {
-            update(data, true)
+            update(Transaction::id eq data.id, data, true)
         }
         return data.id
     }

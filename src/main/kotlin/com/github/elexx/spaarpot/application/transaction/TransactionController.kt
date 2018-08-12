@@ -1,20 +1,20 @@
 package com.github.elexx.spaarpot.application.transaction
 
 import com.github.elexx.spaarpot.controllers.FileController
-import com.github.elexx.spaarpot.domain.viewmodel.TransactionViewObject
+import com.github.elexx.spaarpot.domain.viewmodel.Transaction
 import tornadofx.*
 
 class TransactionController : Controller() {
 
     private val fileController: FileController by inject()
 
-    fun create(transaction: TransactionViewObject) {
+    fun create(transaction: Transaction) {
         runAsync {
-            fileController.createTransaction(transaction.toModel())
+            fileController.createTransaction(transaction)
         }
     }
 
-    fun listByAccountId(accountId: String): List<TransactionViewObject> {
-        return fileController.listTransactionsByAccount(accountId).toList().map(::TransactionViewObject)
+    fun listByAccountId(accountId: String): List<Transaction> {
+        return fileController.listTransactionsByAccount(accountId).toList()
     }
 }

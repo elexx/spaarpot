@@ -2,7 +2,7 @@ package com.github.elexx.spaarpot.application.transaction
 
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
-import com.github.elexx.spaarpot.domain.viewmodel.TransactionViewObject
+import com.github.elexx.spaarpot.domain.viewmodel.Transaction
 import javafx.util.converter.BigDecimalStringConverter
 import tornadofx.*
 
@@ -13,13 +13,24 @@ class TransactionForm : Fragment() {
     private val selectedAccount: AccountModel by inject()
     private val model: TransactionModel by inject()
 
-    override val root = form {
-        fieldset {
-            field(messages["transaction.details.postingTotal"]) {
-                textfield(model.postingTotal, BigDecimalStringConverter()) {
-                    useMaxSize = true
-                }
+    override val root = vbox {
+        button(messages["transaction.new"]) {
+            action {
+                model.item = Transaction()
+                model.account.value = selectedAccount.id.value
             }
+        }
+
+        form {
+            fieldset {
+                enableWhen {
+                    model.itemProperty.isNotNull
+                }
+                field(messages["transaction.details.postingTotal"]) {
+                    textfield(model.postingTotal, BigDecimalStringConverter()) {
+                        useMaxSize = true
+                    }
+                }
 //            field {
 //                togglebutton(messages["transaction.details.button.income"], toggleGroup) {
 //                    useMaxSize = true
@@ -28,36 +39,41 @@ class TransactionForm : Fragment() {
 //                    useMaxSize = true
 //                }
 //            }
-            field(messages["transaction.details.date"]) {
-                datepicker(model.valueDate) {
-                    useMaxSize = true
+                field(messages["transaction.details.date"]) {
+                    datepicker(model.valueDate) {
+                        useMaxSize = true
+                    }
                 }
-            }
 //            field(messages["transaction.details.payee"]) {
 //                textfield(model.pay) {
 //                    useMaxSize = true
 //                }
 //            }
-            field(messages["transaction.details.notes"]) {
-                textfield(model.notes) {
-                    useMaxWidth = true
+                field(messages["transaction.details.notes"]) {
+                    textfield(model.notes) {
+                        useMaxWidth = true
+                    }
                 }
             }
-        }
 
-        button(messages["form.save"]) {
-            isDefaultButton = true
-            action {
-                saveTransaction()
+            buttonbar {
+                button(messages["form.cancel"]) {
+                    action {
+                        model.item = null
+                    }
+                }
+                button(messages["form.save"]) {
+                    isDefaultButton = true
+                    action {
+                        saveTransaction()
+                    }
+                }
             }
         }
     }
 
     fun saveTransaction() {
-        if (model.isEmpty) model.item = TransactionViewObject()
-
         model.commit {
-            model.account.value = selectedAccount.id.value
             controller.create(model.item)
         }
     }
