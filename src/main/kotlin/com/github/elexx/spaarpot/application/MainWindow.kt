@@ -30,6 +30,7 @@ class MainWindow : View() {
             menu(messages["menu.file"]) {
                 item(messages["menu.file.new"], KeyCodeCombination(KeyCode.N, KeyCombination.SHORTCUT_DOWN)).action { newFileAction() }
                 item(messages["menu.file.open"], KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN)).action { openFileAction() }
+                item(messages["menu.file.close"]).action { closeFileAction() }
                 separator()
                 item(messages["menu.file.exit"]).action { primaryStage.close() }
             }
@@ -91,6 +92,11 @@ class MainWindow : View() {
                 root.center.replaceWith(mainView.root)
             }
         }
+    }
+
+    private fun closeFileAction() {
+        fileController.close()
+        root.center.replaceWith(welcomeView.root)
     }
 
     companion object {

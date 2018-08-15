@@ -4,7 +4,6 @@ import com.github.elexx.spaarpot.application.account.AccountList
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
 import com.github.elexx.spaarpot.domain.viewmodel.Transaction
-import javafx.collections.ObservableList
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -15,17 +14,11 @@ class TransactionView : View() {
     private val selectedAccount: AccountModel by inject()
     private val selectedTransaction: TransactionModel by inject()
 
-    private val transactions: ObservableList<Transaction> = mutableListOf<Transaction>().observable()
 
     init {
         selectedAccount.itemProperty.onChange {
             it?.apply {
-                runAsync {
-                    controller.listByAccountId(id)
-                } ui {
-                    transactions.clear()
-                    transactions.addAll(it)
-                }
+                controller.selectAccount(id)
             }
         }
     }
@@ -37,7 +30,7 @@ class TransactionView : View() {
 
             add(AccountList::class)
         }
-        tableview(transactions) {
+        tableview(controller.transactionsForSelectedAccount) {
             hgrow = Priority.ALWAYS
 //            readonlyColumn(messages["table.col.status"], Transaction::status)
 //            readonlyColumn(messages["table.col.date"], Transaction::dueDate)

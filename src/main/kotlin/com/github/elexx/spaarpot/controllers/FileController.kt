@@ -27,29 +27,18 @@ class FileController : Controller() {
             file = path
             disableShutdownHook = true
         }
-        if (listAccounts().none()) {
-            // TODO: Remove me!!
-//            val accountId1 = createAccount(Account("Testaccount 1"))
-//            createAccount(Account("Testaccount 2"))
-//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-//            createTransaction(Transaction(LocalDate.now(), BigDecimal.TEN, "payee1", "note1", "cat1", accountId1))
-        }
     }
 
-    fun createTransaction(data: Transaction): String {
+    fun createTransaction(data: Transaction) {
         db.getRepository<Transaction> {
             update(Transaction::id eq data.id, data, true)
         }
-        return data.id
     }
 
-    fun createAccount(data: Account): String {
+    fun createAccount(data: Account) {
         db.getRepository<Account> {
-            insert(data)
+            update(Account::id eq data.id, data, true)
         }
-        return data.id
     }
 
     fun listTransactionsByAccount(accountId: String) = db.getRepository<Transaction>().find(Transaction::account eq accountId)

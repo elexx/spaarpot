@@ -7,14 +7,24 @@ import tornadofx.*
 class TransactionController : Controller() {
 
     private val fileController: FileController by inject()
+    val transactionsForSelectedAccount = mutableListOf<Transaction>().observable()
 
     fun create(transaction: Transaction) {
         runAsync {
             fileController.createTransaction(transaction)
+        } ui {
+            if (transactionsForSelectedAccount.none { item -> item.id == transaction.id }) {
+                transactionsForSelectedAccount.add(transaction)
+            }
         }
     }
 
-    fun listByAccountId(accountId: String): List<Transaction> {
-        return fileController.listTransactionsByAccount(accountId).toList()
+    fun selectAccount(accountId: String) {
+        runAsync {
+            fileController.listTransactionsByAccount(accountId)
+        } ui {
+            transactionsForSelectedAccount.clear()
+            transactionsForSelectedAccount.addAll(it)
+        }
     }
 }

@@ -1,8 +1,8 @@
 package com.github.elexx.spaarpot.application.transaction
 
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
-import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
 import com.github.elexx.spaarpot.domain.viewmodel.Transaction
+import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
 import javafx.util.converter.BigDecimalStringConverter
 import tornadofx.*
 
@@ -15,6 +15,7 @@ class TransactionForm : Fragment() {
 
     override val root = vbox {
         button(messages["transaction.new"]) {
+            enableWhen { !model.dirty }
             action {
                 model.item = Transaction()
                 model.account.value = selectedAccount.id.value
@@ -58,15 +59,13 @@ class TransactionForm : Fragment() {
 
             buttonbar {
                 button(messages["form.cancel"]) {
-                    action {
-                        model.item = null
-                    }
+                    action { model.rollback() }
+                    enableWhen { model.dirty }
                 }
                 button(messages["form.save"]) {
                     isDefaultButton = true
-                    action {
-                        saveTransaction()
-                    }
+                    action { saveTransaction() }
+                    enableWhen { model.dirty }
                 }
             }
         }
