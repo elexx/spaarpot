@@ -38,7 +38,9 @@ class TransactionView : View() {
             column(messages["table.col.notes"], Transaction::notesProperty) {
                 remainingWidth()
             }
-            column(messages["table.col.postingTotal"], Transaction::postingTotalProperty)
+            column(messages["table.col.postingTotal"], Transaction::postingTotalProperty) {
+                converter(CurrencyStringConverter())
+            }
 
             columnResizePolicy = SmartResize.POLICY
 

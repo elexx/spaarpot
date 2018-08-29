@@ -3,7 +3,6 @@ package com.github.elexx.spaarpot.application.transaction
 import com.github.elexx.spaarpot.domain.viewmodel.AccountModel
 import com.github.elexx.spaarpot.domain.viewmodel.Transaction
 import com.github.elexx.spaarpot.domain.viewmodel.TransactionModel
-import javafx.util.converter.BigDecimalStringConverter
 import tornadofx.*
 
 class TransactionForm : Fragment() {
@@ -28,8 +27,13 @@ class TransactionForm : Fragment() {
                     model.itemProperty.isNotNull
                 }
                 field(messages["transaction.details.postingTotal"]) {
-                    textfield(model.postingTotal, BigDecimalStringConverter()) {
+                    val converter = CurrencyStringConverter()
+                    textfield(model.postingTotal, converter) {
                         useMaxSize = true
+
+                        filterInput {
+                            converter.isParseable(it.controlNewText)
+                        }
                     }
                 }
 //            field {
